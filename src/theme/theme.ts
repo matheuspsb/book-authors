@@ -1,4 +1,6 @@
-export const theme = {
+import { ThemeType } from "./style";
+
+export const theme: ThemeType = {
   colors: {
     primary: "#6200ea",
     secondary: "#03dac6",
@@ -16,5 +18,3 @@ export const theme = {
     main: "'Roboto', sans-serif",
   },
 };
-
-export type ThemeType = typeof theme;

@@ -6,7 +6,7 @@ export const HeaderContainer = styled.header`
   justify-content: center;
   background-color: ${({ theme }) => theme.colors.background.dark};
   padding: 16px 32px;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.background};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.background.light};
 
   @media screen and (max-width: 784px) {
     height: 70px;
