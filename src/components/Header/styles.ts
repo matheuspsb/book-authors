@@ -21,13 +21,6 @@ export const Content = styled.div`
   max-width: 1360px;
 `
 
-export const StyledHyperlink = styled.a`
-  font-weight: 400;
-  font-size: 16px;
-  color: ${({ theme }) => theme.colors.text.light};
-  text-decoration: none;
-`
-
 export const LogoContainer = styled.div`
   width: 200px;
 `
