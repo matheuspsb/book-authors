@@ -29,6 +29,7 @@ export const StyledHyperlink = styled.a`
 `
 
 export const LogoContainer = styled.div`
+  width: 200px;
 `
 
 export const Logo = styled.img`
