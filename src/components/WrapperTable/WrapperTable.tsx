@@ -17,7 +17,7 @@ export default function WrapperTable() {
           <BookDialog />
         </S.ContainerActions>
 
-        <BooksTable books={books} authors={authors} />
+        <BooksTable books={books} authors={authors} removeBook={removeBook} />
 
         <S.ContainerActions>
           <S.StyledText size="6" weight="medium">

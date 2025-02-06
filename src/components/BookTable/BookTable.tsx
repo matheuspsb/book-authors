@@ -1,17 +1,24 @@
-import { Card, Table, Text } from "@radix-ui/themes";
+import { TrashIcon } from "@radix-ui/react-icons";
+import { Button, Card, Table, Text } from "@radix-ui/themes";
 import { useState } from "react";
 import { Author } from "../../types/author.type";
 import { BookType } from "../../types/book.type";
+import AlertDialog from "../AlertDialog/AlertDialog";
 import BookDetailsDialog from "../BookDialog/BookDetailsDialog";
 import * as S from "./styles";
 
 interface BooksTableProps {
   books: BookType[];
   authors: Author[];
+  removeBook: (bookId: string) => void;
 }
 
-export default function BooksTable({ books, authors }: BooksTableProps) {
+export default function BooksTable({ books, authors, removeBook }: BooksTableProps) {
   const [selectedBook, setSelectedBook] = useState<BookType | null>(null);
+  const [dialogInfo, setDialogInfo] = useState({
+    isOpen: false,
+    bookId: "",
+  });
 
   if (books.length === 0) {
     return <Text>Nenhum livro cadastrado</Text>;
@@ -25,6 +32,7 @@ export default function BooksTable({ books, authors }: BooksTableProps) {
             <Table.ColumnHeaderCell>Nome</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Autor</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Páginas</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell></Table.ColumnHeaderCell>
           </Table.Row>
         </Table.Header>
 
@@ -35,9 +43,25 @@ export default function BooksTable({ books, authors }: BooksTableProps) {
             );
             return (
               <Table.Row key={book.id} onClick={() => setSelectedBook(book)}>
-                <Table.RowHeaderCell>{book.name}</Table.RowHeaderCell>
-                <Table.Cell>{author ? author.name : "Desconhecido"}</Table.Cell>
-                <Table.Cell>{book.pages || "-"}</Table.Cell>
+                <S.TableCell>{book.name}</S.TableCell>
+                <S.TableCell>{author ? author.name : "Desconhecido"}</S.TableCell>
+                <S.TableCell>{book.pages || "-"}</S.TableCell>
+                <S.LastTableCell>
+                <Button
+                  variant="classic"
+                  color="red"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    setDialogInfo({
+                      isOpen: true,
+                      bookId: book.id,
+                    });
+                  }}
+                >
+                  Excluir
+                  <TrashIcon color="white" pointerEvents={"none"} />
+                </Button>
+              </S.LastTableCell>
               </Table.Row>
             );
           })}
@@ -51,6 +75,12 @@ export default function BooksTable({ books, authors }: BooksTableProps) {
           authors={authors}
         />
       )}
+
+      <AlertDialog
+        open={dialogInfo.isOpen}
+        setOpen={(isOpen) => setDialogInfo({ ...dialogInfo, isOpen })}
+        onConfirm={() => removeBook(dialogInfo.bookId)}
+      />
     </Card>
   );
 }
