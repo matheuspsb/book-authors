@@ -6,7 +6,7 @@ import BooksTable from "../BookTable/BookTable";
 import * as S from "./styles";
 
 export default function WrapperTable() {
-  const { books, authors } = useLibrary();
+  const { books, authors, removeAuthor, removeBook } = useLibrary();
 
   return (
     <S.ContentWrapper>
@@ -26,7 +26,7 @@ export default function WrapperTable() {
           <AuthorDialog />
         </S.ContainerActions>
 
-        <AuthorsTable authors={authors} />
+        <AuthorsTable authors={authors} removeAuthor={removeAuthor} />
 
       </S.ContentWrapper>
   )

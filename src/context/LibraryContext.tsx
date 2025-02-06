@@ -1,4 +1,10 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { Author } from "../types/author.type";
 import { BookType } from "../types/book.type";
 
@@ -9,6 +15,8 @@ interface LibraryContextType {
   setBooks: React.Dispatch<React.SetStateAction<BookType[]>>;
   addBook: (newBook: BookType) => void;
   addAuthors: (newAuthor: Author) => void;
+  removeBook: (bookId: string) => void;
+  removeAuthor: (authorId: string) => void;
 }
 
 const LibraryContext = createContext<LibraryContextType | null>(null);
@@ -28,7 +36,7 @@ export const LibraryProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const storedAuthors = JSON.parse(localStorage.getItem("@author") || "[]");
     const storedBooks = JSON.parse(localStorage.getItem("@book") || "[]");
-    
+
     setAuthors(storedAuthors);
     setBooks(storedBooks);
   }, []);
@@ -43,10 +51,33 @@ export const LibraryProvider = ({ children }: { children: ReactNode }) => {
     const updatedAuthors = [...authors, newAuthor];
     setAuthors(updatedAuthors);
     localStorage.setItem("@author", JSON.stringify(updatedAuthors));
-  }
+  };
+
+  const removeBook = (bookId: string) => {
+    const updatedBooks = books.filter((book) => book.id !== bookId);
+    setBooks(updatedBooks);
+    localStorage.setItem("@book", JSON.stringify(updatedBooks));
+  };
+
+  const removeAuthor = (authorId: string) => {
+    const updatedAuthors = authors.filter((author) => author.id !== authorId);
+    setAuthors(updatedAuthors);
+    localStorage.setItem("@author", JSON.stringify(updatedAuthors));
+  };
 
   return (
-    <LibraryContext.Provider value={{ authors, books, setAuthors, setBooks, addBook, addAuthors }}>
+    <LibraryContext.Provider
+      value={{
+        authors,
+        books,
+        setAuthors,
+        setBooks,
+        addBook,
+        addAuthors,
+        removeBook,
+        removeAuthor,
+      }}
+    >
       {children}
     </LibraryContext.Provider>
   );
