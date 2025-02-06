@@ -1,6 +1,9 @@
 import { Card, Table, Text } from "@radix-ui/themes";
+import { useState } from "react";
 import { Author } from "../../types/author.type";
 import { BookType } from "../../types/book.type";
+import BookDetailsDialog from "../BookDialog/BookDetailsDialog";
+import * as S from "./styles";
 
 interface BooksTableProps {
   books: BookType[];
@@ -8,10 +11,10 @@ interface BooksTableProps {
 }
 
 export default function BooksTable({ books, authors }: BooksTableProps) {
-  if(books.length === 0) {
-    return (
-      <Text>Nenhum livro cadastrado</Text>
-    )
+  const [selectedBook, setSelectedBook] = useState<BookType | null>(null);
+
+  if (books.length === 0) {
+    return <Text>Nenhum livro cadastrado</Text>;
   }
 
   return (
@@ -25,19 +28,29 @@ export default function BooksTable({ books, authors }: BooksTableProps) {
           </Table.Row>
         </Table.Header>
 
-        <Table.Body>
+        <S.TableBody>
           {books.map((book: BookType) => {
-            const author = authors.find((author) => author.id === book.author_id);
+            const author = authors.find(
+              (author) => author.id === book.author_id
+            );
             return (
-              <Table.Row key={book.id}>
+              <Table.Row key={book.id} onClick={() => setSelectedBook(book)}>
                 <Table.RowHeaderCell>{book.name}</Table.RowHeaderCell>
                 <Table.Cell>{author ? author.name : "Desconhecido"}</Table.Cell>
                 <Table.Cell>{book.pages || "-"}</Table.Cell>
               </Table.Row>
             );
           })}
-        </Table.Body>
+        </S.TableBody>
       </Table.Root>
+
+      {selectedBook && (
+        <BookDetailsDialog
+          selectedBook={selectedBook}
+          setSelectedBook={setSelectedBook}
+          authors={authors}
+        />
+      )}
     </Card>
   );
 }
