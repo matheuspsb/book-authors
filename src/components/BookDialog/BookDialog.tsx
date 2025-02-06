@@ -1,8 +1,12 @@
-import { Button, Dialog, Flex, Text, TextField } from "@radix-ui/themes";
+import { Button, Dialog } from "@radix-ui/themes";
+import { useState } from "react";
+import BookForm from "../BookForm/BookForm";
 
 export default function BookDialog() {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <Dialog.Root>
+    <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
       <Dialog.Trigger>
         <Button color="teal">Adicionar Livro</Button>
       </Dialog.Trigger>
@@ -13,46 +17,7 @@ export default function BookDialog() {
           Preencha os campos abaixo para adicionar um novo livro.
         </Dialog.Description>
 
-        <Flex direction="column" gap="3">
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Nome
-            </Text>
-            <TextField.Root
-              defaultValue=""
-              placeholder="Digite o nome do livro"
-            />
-          </label>
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Autor
-            </Text>
-            <TextField.Root
-              defaultValue=""
-              placeholder="Digite o autor do livro"
-            />
-          </label>
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Número de páginas
-            </Text>
-            <TextField.Root
-              defaultValue=""
-              placeholder="Digite o número de páginas do livro"
-            />
-          </label>
-        </Flex>
-
-        <Flex gap="3" mt="4" justify="end">
-          <Dialog.Close>
-            <Button variant="soft" color="gray">
-              Cancelar
-            </Button>
-          </Dialog.Close>
-          <Dialog.Close>
-            <Button>Salvar</Button>
-          </Dialog.Close>
-        </Flex>
+        <BookForm onSuccess={() => setIsOpen(false)} />
       </Dialog.Content>
     </Dialog.Root>
   );

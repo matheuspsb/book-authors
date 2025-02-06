@@ -1,6 +1,7 @@
 import { Card, Table } from "@radix-ui/themes";
 import AuthorDialog from "../../components/AuthorDialog/AuthorDialog";
 import BookDialog from "../../components/BookDialog/BookDialog";
+import { Author } from "../../types/author.type";
 import * as S from "./styles";
 
 const authors = [
@@ -16,6 +17,9 @@ const books = [
 ];
 
 export default function Home() {
+
+  const authors2 = JSON.parse(localStorage.getItem("@author") || "[]");
+
   return (
     <S.ScreenContainer>
       <S.ContentWrapper>
@@ -72,7 +76,7 @@ export default function Home() {
             </Table.Header>
 
             <Table.Body>
-              {authors.map((author) => (
+              {authors2?.map((author: Author) => (
                 <Table.Row key={author.id}>
                   <Table.RowHeaderCell>{author.name}</Table.RowHeaderCell>
                   <Table.Cell>{author.email || "-"}</Table.Cell>

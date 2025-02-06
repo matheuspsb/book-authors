@@ -1,4 +1,3 @@
-// AuthorForm.tsx
 import { Button, Dialog, Flex, Text, TextField } from "@radix-ui/themes";
 import { useAuthorForm } from "../../hooks/useAuthorForm";
 
