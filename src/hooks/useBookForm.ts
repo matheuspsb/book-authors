@@ -1,11 +1,11 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { v4 as uuidv4 } from "uuid";
+import { useLibrary } from "../context/LibraryContext";
 import { BookFormData, bookSchema } from "../schemas/bookForm.schema";
 
-
 export const useBookForm = (onSuccess: VoidFunction) => {
-  const [authors, setAuthors] = useState<{ id: string; name: string }[]>([]);
+  const { authors, addBook } = useLibrary();
 
   const {
     register,
@@ -16,21 +16,15 @@ export const useBookForm = (onSuccess: VoidFunction) => {
     resolver: yupResolver(bookSchema),
   });
 
-  useEffect(() => {
-    const storedAuthors = localStorage.getItem("@author");
-
-    if (storedAuthors) {
-      setAuthors(JSON.parse(storedAuthors));
-    }
-  }, [])
-
   const onSubmit = (data: BookFormData) => {
     const transformedData = {
       ...data,
       author_id: data.author_id,
       pages: data.pages ? Number(data.pages) : undefined,
+      id: uuidv4(), 
     };
-    console.log(transformedData);
+
+    addBook(transformedData);
     onSuccess();
   };
 

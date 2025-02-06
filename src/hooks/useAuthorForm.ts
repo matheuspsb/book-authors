@@ -1,9 +1,12 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
+import { useLibrary } from "../context/LibraryContext";
 import { AuthorFormData, authorSchema } from "../schemas/authorForm.schema";
 
 export const useAuthorForm = (onSuccess: VoidFunction) => {
+  const { addAuthors } = useLibrary();
+
   const {
     register,
     handleSubmit,
@@ -17,9 +20,8 @@ export const useAuthorForm = (onSuccess: VoidFunction) => {
       id: uuidv4(),
       ...data,
     };
-    const existingAuthors = JSON.parse(localStorage.getItem("@author") || "[]");
-    const updatedAuthors = [...existingAuthors, newAuthor];
-    localStorage.setItem("@author", JSON.stringify(updatedAuthors));
+
+    addAuthors(newAuthor);
     onSuccess();
   };
 
