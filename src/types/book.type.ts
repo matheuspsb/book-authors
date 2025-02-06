@@ -1,6 +1,6 @@
 export type BookType = {
-  id: number;
+  id: string;
   name: string;
-  author_id: number;
+  author_id: string;
   pages?: number;
 }
