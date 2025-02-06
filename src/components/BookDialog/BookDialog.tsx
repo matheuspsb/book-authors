@@ -1,6 +1,7 @@
-import { Button, Dialog } from "@radix-ui/themes";
+import { Dialog } from "@radix-ui/themes";
 import { useState } from "react";
 import BookForm from "../BookForm/BookForm";
+import * as S from "./styles";
 
 export default function BookDialog() {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,7 +9,7 @@ export default function BookDialog() {
   return (
     <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
       <Dialog.Trigger>
-        <Button color="teal">Adicionar Livro</Button>
+        <S.StyledButton color="teal">Adicionar Livro</S.StyledButton>
       </Dialog.Trigger>
 
       <Dialog.Content maxWidth="450px">

@@ -1,6 +1,7 @@
-import { Button, Dialog } from "@radix-ui/themes";
+import { Dialog } from "@radix-ui/themes";
 import { useState } from "react";
 import { AuthorForm } from "../AuthorForm/AuthorForm";
+import * as S from "./styles";
 
 export default function AuthorDialog() {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,7 +9,7 @@ export default function AuthorDialog() {
   return (
     <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
       <Dialog.Trigger>
-        <Button color="teal">Adicionar Autor</Button>
+        <S.StyledButton color="teal">Adicionar Autor</S.StyledButton>
       </Dialog.Trigger>
 
       <Dialog.Content maxWidth="450px">
